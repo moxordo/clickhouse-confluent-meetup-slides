@@ -27,79 +27,39 @@
   }
   .card.active { opacity: 1; pointer-events: all; }
 
-  /* ── Header ── */
-  .hd {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px; flex-shrink: 0;
-  }
-  .num { font-size: 11px; font-weight: 700; letter-spacing: .18em;
-    color: var(--muted); text-transform: uppercase; }
-  .tag { font-size: 10px; font-weight: 700; letter-spacing: .1em;
-    padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
-    background: rgba(255,255,255,.06); color: var(--muted); }
-  .tag.a { background: rgba(230,255,61,.1);  color: var(--accent); }
+  .hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-shrink: 0; }
+  .num { font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+  .tag { font-size: 10px; font-weight: 700; letter-spacing: .1em; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; background: rgba(255,255,255,.06); color: var(--muted); }
+  .tag.a { background: rgba(230,255,61,.1);   color: var(--accent); }
   .tag.p { background: rgba(163,112,255,.12); color: var(--purple); }
   .tag.b { background: rgba(107,143,252,.1);  color: var(--blue); }
 
-  /* ── Slide title ── */
-  .ttl {
-    font-size: clamp(19px, 3.2vw, 34px);
-    font-weight: 800; line-height: 1.2; letter-spacing: -.02em;
-    margin-bottom: 16px; flex-shrink: 0;
-    border-bottom: 1px solid var(--border); padding-bottom: 14px;
-  }
+  .ttl { font-size: clamp(18px, 3vw, 32px); font-weight: 800; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 14px; flex-shrink: 0; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
   .ttl em { font-style: normal; color: var(--accent); }
   .ttl s  { text-decoration: none; color: var(--purple); }
 
-  /* ── Script body ── */
-  .body {
-    flex: 1; overflow-y: auto;
-    font-size: clamp(14px, 2vw, 18px);
-    line-height: 1.75;
-    color: #c8c8c8;
-    padding-right: 4px;
-  }
-  /* scrollbar */
+  .body { flex: 1; overflow-y: auto; font-size: clamp(14px, 1.9vw, 17px); line-height: 1.8; color: #c8c8c8; padding-right: 4px; }
   .body::-webkit-scrollbar { width: 3px; }
-  .body::-webkit-scrollbar-track { background: transparent; }
   .body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+  .body p { margin-bottom: 14px; }
+  .body p:last-child { margin-bottom: 0; }
 
-  /* inline emphasis helpers */
   .body strong { color: var(--accent); font-weight: 700; }
-  .body b { color: #fff; font-weight: 700; }
-  .body i { font-style: normal; color: var(--purple); font-weight: 600; }
-  .body u { text-decoration: none; color: var(--blue); }
-  .body code {
-    font-family: 'SF Mono', 'Fira Code', monospace; font-size: .84em;
-    background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 4px;
-    color: var(--green);
-  }
-  .body .sep {
-    display: block; height: 1px; background: var(--border);
-    margin: 16px 0;
-  }
+  .body b      { color: #fff; font-weight: 700; }
+  .body i      { font-style: normal; color: var(--purple); font-weight: 600; }
+  .body code   { font-family: 'SF Mono','Fira Code',monospace; font-size: .83em; background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 4px; color: var(--green); }
 
-  /* ── Nav ── */
-  .nav {
-    display: flex; align-items: center; justify-content: center; gap: 18px;
-    padding-top: 14px; flex-shrink: 0;
-  }
-  .nav button {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--fg); font-size: 20px; padding: 9px 24px;
-    border-radius: 10px; cursor: pointer; transition: border-color .15s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .nav { display: flex; align-items: center; justify-content: center; gap: 18px; padding-top: 14px; flex-shrink: 0; }
+  .nav button { background: var(--surface); border: 1px solid var(--border); color: var(--fg); font-size: 20px; padding: 9px 24px; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .nav button:hover:not(:disabled) { border-color: rgba(255,255,255,.28); }
   .nav button:disabled { opacity: .2; cursor: default; }
   .nav .pg { font-size: 12px; color: var(--muted); letter-spacing: .1em; min-width: 52px; text-align: center; }
 
-  /* ── Portrait / mobile ── */
   @media (max-width: 600px), (orientation: portrait) {
     .card { padding: 18px 18px 12px; }
     .hd { margin-bottom: 10px; }
-    .ttl { font-size: clamp(17px, 5.5vw, 24px); margin-bottom: 12px; padding-bottom: 10px; }
-    .body { font-size: clamp(13px, 4vw, 16px); line-height: 1.7; }
+    .ttl { font-size: clamp(16px, 5.5vw, 22px); margin-bottom: 10px; padding-bottom: 10px; }
+    .body { font-size: clamp(13px, 4vw, 16px); line-height: 1.72; }
     .nav { padding-top: 10px; gap: 12px; }
     .nav button { font-size: 18px; padding: 10px 20px; }
   }
@@ -114,13 +74,9 @@
 <!-- 01 -->
 <div class="card active">
   <div class="hd"><span class="num">01 / 17</span><span class="tag a">Title</span></div>
-  <div class="ttl">ClickHouse를 활용한 광고 데이터의 <em>신선도와 정확도</em></div>
+  <div class="ttl"><em>ClickHouse</em> × Confluent — DARO 광고 데이터 파이프라인</div>
   <div class="body">
-    오늘은 저희 <b>DARO 광고 수익 파이프라인</b>을 <strong>ClickHouse</strong>로 어떻게 구현했는지 실전 사례를 공유해드리려 합니다.
-    <span class="sep"></span>
-    기술 스택은 심플합니다. <code>Confluent Kafka → S3 → ClickHouse Cloud</code>. 그런데 이 심플한 스택으로 두 가지 상충되는 요구사항을 동시에 만족시켜야 했습니다. <strong>신선도</strong> — 광고 수익을 준실시간으로 보여주는 것, 그리고 <i>정확도</i> — D+7 기준 확정 수치로 정기적으로 보정하는 것. 이 두 가지를 <b>하나의 테이블</b>로 어떻게 풀었는지가 오늘 발표의 핵심입니다.
-    <span class="sep"></span>
-    끝에 Q&A 시간을 드리겠습니다. 편하게 질문해주세요.
+    <p>안녕하세요, 반갑습니다.</p>
   </div>
   <div class="nav">
     <button onclick="go(-1)" disabled>←</button>
@@ -132,11 +88,12 @@
 <!-- 02 -->
 <div class="card">
   <div class="hd"><span class="num">02 / 17</span><span class="tag">Company</span></div>
-  <div class="ttl">DelightRoom 소개</div>
+  <div class="ttl">사업 소개</div>
   <div class="body">
-    저희 회사 <b>DelightRoom</b>은 크게 세 개의 사업부로 구성돼 있습니다. 글로벌 알람 앱 <b>Alarmy</b>, 광고 플랫폼 <b>DARO</b>, 그리고 싱가포르 인프라 법인 <b>DelightHub</b>입니다.
-    <span class="sep"></span>
-    DARO는 Alarmy의 트래픽 위에서 동작하는 광고 네트워크로, 오늘 발표의 주인공입니다.
+    <p><b>Delightroom</b>이라는 회사는 <b>Alarmy</b>라는 알람앱으로 시작했습니다.</p>
+    <p>알라미는 꽤나 초기부터 광고를 통한 앱 수익화를 시작했는데요, 그러다보니 고객에게 전달하는 가치의 사이즈에 비례하게 가치를 잘 Capture 할 수 있는 노하우나 광고 생태계에서의 기반을 잘 만들 수 있었던 것 같습니다.</p>
+    <p>알라미 처럼 국내외의 파트너들에게도 알라미의 광고 수익화 노하우와 광고 디멘드를 공유하고자 <b>DARO</b>라는 플랫폼을 런칭하고 운영해오고 있습니다. 감사하게도 많은 고객사분들이 만족하시고 홍보해주셔서 <b>MAU 기준으로는 5천만</b>, 파트너사 수로는 <b>200 곳</b>이 넘는 정도까지 성장 할 수 있었습니다.</p>
+    <p>근래에는 나아가서 이미 고객에게 가치를 잘 전달하고 있는 제품을 더 고도화하고 가꾸는 사업으로 나아가는 중입니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">2 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -144,11 +101,10 @@
 <!-- 03 -->
 <div class="card">
   <div class="hd"><span class="num">03 / 17</span><span class="tag">Team</span></div>
-  <div class="ttl">4명의 엔지니어, 3개의 사업부</div>
+  <div class="ttl">Foundation 팀 소개</div>
   <div class="body">
-    저희 <b>Foundation Engineering</b> 팀은 단 <strong>4명</strong>입니다. 이 4명이 <b>DevOps</b>, <b>SRE</b>, <b>Data Platform</b>, <b>AX</b> 전 영역을 커버하고 있습니다.
-    <span class="sep"></span>
-    그러다 보니 기술 선택의 제1 기준은 항상 <strong>운영 부담을 줄이는 것</strong>이었습니다. 복잡한 파이프라인보다는, 가능하면 ClickHouse 한 곳에서 해결하는 방향을 선호하게 됐고, 오늘 보여드릴 아키텍처도 그 철학의 결과물입니다.
+    <p>저희 <b>Foundation 팀</b>에 대해서 간략히 설명드려보고자 합니다.</p>
+    <p>이전 슬라이드에서 설명드린 것과 같이 Delightroom은 3가지 사업부로 나뉘어져 있고, 현재는 <b>4명</b>으로 이루어진 하나의 기술 조직이 <b>DevOps</b>부터 <b>AX</b>까지 플랫폼화하여 각 사업부에 인터널 서비스나 협업의 형태로 가치를 제공하고 있습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">3 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -156,11 +112,10 @@
 <!-- 04 -->
 <div class="card">
   <div class="hd"><span class="num">04 / 17</span><span class="tag">Context</span></div>
-  <div class="ttl">넓은 스코프, 작은 팀 — <em>TCO 최소화</em></div>
+  <div class="ttl">넓은 스코프, 작은 팀</div>
   <div class="body">
-    저희가 관리하는 영역을 나열하면 <b>EKS</b>, <b>WarpStream BYOC</b>, <b>Confluent</b>, <b>ClickHouse Cloud</b>, <b>Datadog</b>, <b>Airflow</b> 등입니다. 4명이 이걸 다 운영합니다.
-    <span class="sep"></span>
-    그래서 핵심 챌린지는 결국 <strong>TCO 최소화</strong>입니다. 비용과 운영 리소스를 효율적으로 쓰면서 이 넓은 스코프를 커버해야 합니다. 오늘 소개드릴 파이프라인도 이 원칙 하에 설계됐습니다. <b>최대한 ClickHouse 안에서 해결하자.</b>
+    <p>이 처럼 작은 팀이 넓은 스코프와 관리 영역을 다뤄야하다보니 비용이나 운영 리소스를 효율적으로 쓰기 위해 다양한 시도들을 하고 있습니다.</p>
+    <p>여기 계신 많은 엔지니어분들이 공감해주시리라고 생각하지만, 모든 기술적인 결정에는 <b>Tradeoff</b>가 존재하고, 어느 정도 합의된 <strong>TCO</strong> 안에서 요구사항을 맞추기 위해서 다양한 관점에서의 판단이 필요합니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">4 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -168,13 +123,10 @@
 <!-- 05 -->
 <div class="card">
   <div class="hd"><span class="num">05 / 17</span><span class="tag p">DARO</span></div>
-  <div class="ttl">DARO에서의 <s>챌린지</s></div>
+  <div class="ttl">DARO에서의 챌린지</div>
   <div class="body">
-    <b>DARO</b>는 약 <strong>5,000만 MAU</strong>에 <b>200개 이상의 파트너사</b> 광고 수익을 집계해서 대시보드로 보여주는 플랫폼입니다.
-    <span class="sep"></span>
-    파트너사(퍼블리셔) 입장에서는 두 가지가 필요합니다. 첫째, 지금 제 광고가 얼마나 벌고 있는지 <strong>빠르게</strong> 보고 싶다. 둘째, 월말 정산 때 <i>정확한</i> 수치가 맞아야 한다. 이 두 가지가 기술적으로 충돌합니다. 실시간 수치는 항상 <b>preliminary</b>이고, SSP에서 D+7 기준으로 확정 수치가 뒤늦게 들어오기 때문입니다.
-    <span class="sep"></span>
-    <b>"빠르게도, 정확하게도"</b> — 이게 오늘 풀어드릴 문제입니다.
+    <p>저희 <b>DARO</b>에서는 연동한 광고 지면에 대해서 대시보드 리포트를 제공합니다.</p>
+    <p>고객사 담당자께서 데이터를 확인하실때에 기대하시는 사항들이 몇 가지 있을텐데요, 그 중 중요한 두 개만 꼽아보자면 — 하나는 얼마나 <strong>최신의 데이터</strong>까지 보이는가, 또 다른 하나는 얼마나 <i>정확하고 불변한 데이터</i>가 제공되는가 일 것 같습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">5 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -182,13 +134,10 @@
 <!-- 06 -->
 <div class="card">
   <div class="hd"><span class="num">06 / 17</span><span class="tag a">Requirements</span></div>
-  <div class="ttl">신선도 + 정확도의 <em>요구사항</em></div>
+  <div class="ttl">신선도 + 정확도의 챌린지</div>
   <div class="body">
-    <strong>신선도(Freshness)</strong> 측면에서는 두 가지가 중요합니다. 새 퍼블리셔가 온보딩됐을 때 <b>즉시</b> 수익 데이터가 보여야 하고, A/B 실험 중에는 <b>준실시간 성과 피드백</b>이 필요합니다.
-    <span class="sep"></span>
-    <i>정확도(Accuracy)</i> 측면에서는, SSP 집계가 지연되고 보정되기 때문에 처음 받은 수치는 항상 preliminary입니다. <b>D+7 기준</b>으로 확정 수치가 들어오면 해당 기간 데이터를 정확하게 업데이트해야 합니다.
-    <span class="sep"></span>
-    두 요구사항이 충돌하는 것처럼 보이죠. 다음 슬라이드들에서 ClickHouse로 어떻게 동시에 만족시켰는지 보여드립니다.
+    <p>여기서 엔지니어 입장에서 문제를 해결하고자 하면, 우선 문제를 나누고 각각에 맞는 솔루션을 뾰족하게 찾는 것이 한 가지 방법일 것 같습니다.</p>
+    <p>저희도 같은 관점으로 문제를 파악하기 시작했고, 결국에는 <strong>ClickHouse</strong>라는 결론에 도달하게 되었습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">6 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -196,11 +145,9 @@
 <!-- 07 -->
 <div class="card">
   <div class="hd"><span class="num">07 / 17</span><span class="tag">Section</span></div>
-  <div class="ttl">Section 01 — ClickHouse를 선택하게 된 이유</div>
+  <div class="ttl">Section 01 — <em>ClickHouse</em>를 선택하게 된 이유</div>
   <div class="body">
-    섹션 전환입니다. <b>"신선도와 정확도, 두 가지를 동시에 달성하는 법"</b>이 이번 섹션의 핵심 질문입니다.
-    <span class="sep"></span>
-    잠깐 숨 고르고 넘어가세요.
+    <p>신선도와 정확도, 두 가지를 동시에 달성하는 법.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">7 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -208,15 +155,11 @@
 <!-- 08 -->
 <div class="card">
   <div class="hd"><span class="num">08 / 17</span><span class="tag a">Pipeline</span></div>
-  <div class="ttl">DARO 데이터 파이프라인</div>
+  <div class="ttl">데이터 파이프라인</div>
   <div class="body">
-    파이프라인은 크게 두 경로입니다.
-    <span class="sep"></span>
-    <strong>실시간 이벤트 경로</strong>: <code>App SDK → DARO API → Confluent Kafka → S3 → S3Queue Engine → ClickHouse</code>. 앱에서 발생한 광고 노출/클릭이 Confluent를 통해 S3로 쌓이고, ClickHouse가 S3를 직접 폴링해서 자동 적재합니다.
-    <span class="sep"></span>
-    <i>정산 배치 경로</i>: <code>DARO Report Fetcher → S3 → Airflow → REPLACE PARTITION</code>. 외부 SSP API에서 확정 리포트를 가져와 S3에 쌓고, Airflow가 해당 날짜 파티션을 원자적으로 교체합니다.
-    <span class="sep"></span>
-    <b>S3가 허브</b> 역할을 합니다. 두 경로 모두 S3를 거쳐 ClickHouse로 들어옵니다.
+    <p>솔루션 본론에 들어가기에 앞서서 개괄적인 DARO의 데이터 파이프라인을 미리 보여드리겠습니다.</p>
+    <p>아마 <b>"별거 없네?"</b> 라고 생각하실 것 같습니다. 물론 각 레이어 안에는 추상화 시켜버린 부분들이 있지만, 실제 다뤄야하는 데이터 규모 대비 아키텍쳐가 복잡하지는 않다고 느끼실 수 있을 것 같습니다.</p>
+    <p>몇 가지 특이한 점이 있다면, ETL의 <b>T</b>에 해당하는 <b>Transform</b>을 맡아줄 컴포넌트를 따로 두지 않았다는 점인데요, 이는 <strong>ClickHouse</strong>의 compute를 잘 활용하고 Lake 처럼 활용하는 방식을 차용했기에 가능했습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">8 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -224,13 +167,12 @@
 <!-- 09 -->
 <div class="card">
   <div class="hd"><span class="num">09 / 17</span><span class="tag a">Freshness</span></div>
-  <div class="ttl">신선도: <em>S3Queue Engine</em></div>
+  <div class="ttl">신선도 — <em>S3Queue Engine</em></div>
   <div class="body">
-    기존 방식은 <b>Airflow DAG</b>가 S3를 폴링해서 ClickHouse에 INSERT하는 구조였습니다. 운영 복잡도가 높고 지연도 있었습니다.
-    <span class="sep"></span>
-    <strong>S3Queue Engine</strong>으로 바꾸면서 이게 사라졌습니다. ClickHouse가 S3 버킷을 <b>직접 watch</b>하다가 새 파일이 생기는 순간 자동으로 적재합니다. Airflow DAG가 필요 없어집니다.
-    <span class="sep"></span>
-    설정은 <code>CREATE TABLE ... ENGINE = S3Queue(...)</code> DDL 하나로 끝입니다. <b>별도 오케스트레이션 없음</b>, <b>운영 포인트 없음</b>. 이게 TCO 관점에서 굉장히 매력적이었습니다.
+    <p>저희는 앞서 보여드린 것과 같이 <b>S3</b>를 주된 <b>SSOT</b>로 사용하고 있습니다. 그렇기에 S3로부터 자유롭게 데이터를 가져올 수 있는 것이 중요했는데, <strong>ClickHouse</strong>의 <strong>S3 engine</strong>이 초기에는 이 역할을 잘 수행해주었습니다. 단순히 S3에 접근하기 위한 credential (role이나 access_key)을 마련해주고 간단한 DML이면 데이터를 옮겨 올수 있습니다.</p>
+    <p>다만 기존의 S3 엔진은 <code>INSERT INTO</code>를 필요한 시점에 파티션 단위로 실행해주어야 하기 때문에 한 시간 이내의 데이터를 제공하기는 어려웠습니다.</p>
+    <p>다행히도 <strong>S3Queue Engine</strong>을 활용하면 S3에 적재될때 발생하는 이벤트를 기반으로 file 단위의 <b>streaming</b>이 가능해졌습니다.</p>
+    <p>이미 저희는 <b>Confluent Connector</b>를 통해서 S3까지 준실시간으로 쌓고 있었기 때문에 큰 문제없이 적용이 가능한 상태였습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">9 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -238,13 +180,10 @@
 <!-- 10 -->
 <div class="card">
   <div class="hd"><span class="num">10 / 17</span><span class="tag p">Accuracy</span></div>
-  <div class="ttl">정확도: <em>REPLACE PARTITION</em></div>
+  <div class="ttl">정확도 — <s>REPLACE PARTITION</s></div>
   <div class="body">
-    확정 데이터를 업데이트할 때 흔히 쓰는 방법이 <b>DELETE + INSERT</b>입니다. 그런데 이 방법은 중간 상태가 생깁니다. DELETE가 완료되기 전에 쿼리가 날아오면 데이터가 비어 보일 수 있습니다.
-    <span class="sep"></span>
-    ClickHouse의 <strong>REPLACE PARTITION</strong>은 다릅니다. <code>ALTER TABLE t REPLACE PARTITION p FROM t_tmp</code> — 파티션 전체를 <b>원자적으로</b> 교체합니다. 교체 전후만 있고 중간 상태가 없습니다. 쿼리 중단 없이 정확도를 확보할 수 있습니다.
-    <span class="sep"></span>
-    D+7 확정 데이터가 도착하면 해당 날짜 파티션만 통째로 swap합니다. 깔끔합니다.
+    <p>두 번째 문제는 <i>정확도</i> 인데요, 데이터 엔지니어분들이 실무에서 항상 염두하시는 두 가지가 있다면 아마 하나는 <b>Idempotency</b>, 그리고 다른 하나는 <b>Atomic Transaction</b> 일 것 같습니다.</p>
+    <p>이를 만족하기 위해서 Iceberg의 <b>ReplacePartition</b>의 개념이 <strong>ClickHouse</strong>에도 존재할 것이라고 예상했고, 역시나 제공이 되어서 쉽게 활용이 가능했습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">10 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -254,13 +193,10 @@
   <div class="hd"><span class="num">11 / 17</span><span class="tag a">★ Key Slide</span></div>
   <div class="ttl">하나의 테이블로 <em>신선도와 정확도</em> 동시에</div>
   <div class="body">
-    이게 오늘 발표의 <b>핵심</b>입니다. <code>agg_ssp_impression</code>이라는 <strong>AggregatingMergeTree</strong> 테이블 하나로 두 가지를 동시에 만족시킵니다.
-    <span class="sep"></span>
-    <strong>실시간 경로</strong>: <code>stg_ssp__impression</code>(S3Queue)에서 이벤트가 들어오면 <b>Materialized View</b>가 자동으로 <code>agg_ssp_impression</code>에 <b>-State 집계를 누적</b>합니다. sumState, uniqState 형태로요.
-    <span class="sep"></span>
-    <i>배치 경로</i>: <code>finalized_s3_source</code>에서 확정 데이터가 오면 <b>REPLACE PARTITION</b>으로 해당 파티션을 정확한 값으로 교체합니다.
-    <span class="sep"></span>
-    쿼리할 때는 <code>sumMerge</code>, <code>uniqMerge</code>로 -State를 최종화합니다. <b>같은 테이블, 같은 쿼리</b>로 최신 실시간 집계와 확정 집계를 모두 읽을 수 있습니다.
+    <p>이제 신선도와 정확도를 동시에 맞추게 된 방법을 간략하게 공유할텐데요, 보시는 것과 같이 <b>DDL, DML 몇 개</b>만 엮어서 스케쥴러로 실행하실 수 있다면 저희가 풀고자 했던 문제를 쉽게 푸실 수 있습니다.</p>
+    <p>하나씩 차근차근 설명해드리자면, 우선 실시간으로 지표를 집계하기 위한 <strong>AggregatingMergeTree</strong> 기반의 테이블을 구성하고, 어떤 지표를 어떤 함수로 집계할 것인지를 명시합니다.</p>
+    <p>그 다음 이전 슬라이드에서 <strong>S3Queue</strong>로 셋팅한 테이블에서 데이터 업데이트 받아오는게 가능하도록 <strong>MV</strong> 설정을 하게 되구요. 그러면 이 시점에는 실시간 업데이트가 차근차근 들어오게 됩니다.</p>
+    <p>이제 일단위로 확정된 데이터를 업데이트 하고 싶을텐데요, 이미 partition 단위를 <code>event_date</code>로 설정해두었기 때문에 해당 파티션을 <b>atomic</b>하게 교체만 해주면 문제가 해결됩니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">11 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -270,9 +206,7 @@
   <div class="hd"><span class="num">12 / 17</span><span class="tag b">Bonus</span></div>
   <div class="ttl">Bonus — 또 하나의 방법</div>
   <div class="body">
-    시간이 있으면 이 섹션도 다뤄보겠습니다. <b>공유 스토리지 아키텍처</b>가 만들어내는 운영 효율에 대한 이야기입니다.
-    <span class="sep"></span>
-    청중 반응 보고 자세히 다룰지, 빠르게 넘길지 결정하세요.
+    <p>도움이 되실지 모르겠지만, 보너스 섹션을 하나 준비했습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">12 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -280,13 +214,12 @@
 <!-- 13 -->
 <div class="card">
   <div class="hd"><span class="num">13 / 17</span><span class="tag b">Warehouse</span></div>
-  <div class="ttl">ClickHouse Cloud <em>Warehouse</em></div>
+  <div class="ttl"><em>ClickHouse Cloud Warehouse</em></div>
   <div class="body">
-    ClickHouse Cloud의 <strong>Warehouse</strong> 기능은 컴퓨트 노드들이 <b>동일한 S3 스토리지를 공유</b>할 수 있게 해줍니다. 이를 활용한 두 가지 사례를 소개드립니다.
-    <span class="sep"></span>
-    <b>Use Case 01 — QA Staging 환경</b>: Prod S3 데이터를 Staging ClickHouse가 그대로 참조합니다. 데이터 복사 없이 QA가 가능합니다. 스토리지 비용 이중 지불이 없습니다.
-    <span class="sep"></span>
-    <i>Use Case 02 — Lightweight Data Lake</i>: ClickHouse가 <b>Query Engine</b> 역할을 하고 S3가 스토리지입니다. Parquet, CSV 파일을 별도 ETL 없이 직접 쿼리합니다. 별도 Spark 클러스터나 Athena 없이 ClickHouse 하나로 해결됩니다.
+    <p>저희는 쏠쏠하게 활용하고 있는 클릭하우스의 기능이라 가져와봤는데요, <strong>ClickHouse Cloud Warehouse</strong>라는 기능입니다.</p>
+    <p>많은 DB나 데이터 플랫폼들이 de-facto로 차용하는 전략이 된 <b>storage-compute 분리</b>하는 방식을 클릭하우스도 차용하고 있는데요, 그렇기에 가능한 기능이 웨어하우스 기능입니다. 고객 입장에서는 write와 read가 모두 횡적으로 스케일링이 가능해지기 때문에 얻을 수 있는 이점들이 있습니다.</p>
+    <p>저희는 이 기능을 활용해서 <b>Staging이나 QA 환경</b>으로 활용하고 있습니다. 보통 Staging 환경을 마련할때 어느 정도의 데이터를 준비해야하는가로 딜레마에 빠지게 되는데요, <b>스토리지 비용을 추가로 안내고</b> read replica만 추가하면 되기에 크게 고민 없이 쓰게 되었습니다.</p>
+    <p>다른 하나는 <b>데이터 레이크</b>로의 활용 가능성이 엿보였다는 건데요,</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">13 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -296,7 +229,7 @@
   <div class="hd"><span class="num">14 / 17</span><span class="tag">Section</span></div>
   <div class="ttl"><em>Takeaways!</em></div>
   <div class="body">
-    자, 이제 정리합니다. <strong>Takeaways!</strong>
+    <p>자, 정리해보겠습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">14 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -304,13 +237,11 @@
 <!-- 15 -->
 <div class="card">
   <div class="hd"><span class="num">15 / 17</span><span class="tag a">Takeaway 01</span></div>
-  <div class="ttl">준실시간 집계 + 백필 집계를 <em>하나의 테이블</em>에</div>
+  <div class="ttl">Takeaway 01</div>
   <div class="body">
-    첫 번째 테이크어웨이입니다. <strong>AggregatingMergeTree</strong> 하나로 준실시간 스트림 집계와 D+1 백필 집계를 모두 담을 수 있습니다.
-    <span class="sep"></span>
-    복잡한 파이프라인이 필요 없습니다. <b>DDL과 DML만으로</b> ClickHouse 내에서 설정이 완결됩니다. <strong>Materialized View</strong>가 실시간으로 -State 집계를 누적하고, <i>REPLACE PARTITION</i>이 확정 데이터로 해당 파티션을 원자적으로 교체합니다. 쿼리 시에는 <code>sumMerge</code> / <code>uniqMerge</code>로 최종화합니다.
-    <span class="sep"></span>
-    외부 오케스트레이션 도구를 최소화하면서, ClickHouse의 기능만으로 두 가지 요구사항을 동시에 만족시킬 수 있다는 게 핵심입니다.
+    <p>첫번째 Takeaway 입니다.</p>
+    <p>하나의 테이블에 <strong>STREAMING INSERT</strong>와 <strong>파티션 교체</strong>가 간단한 <b>DDL, DML</b> 기반으로 가능하다는 점입니다.</p>
+    <p>빠르게 시작해보고 싶으시다면 Airflow 없이도, 간단히 <b>Github Actions</b>로도 테스트 해보실 수 있습니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">15 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -318,13 +249,10 @@
 <!-- 16 -->
 <div class="card">
   <div class="hd"><span class="num">16 / 17</span><span class="tag p">Takeaway 02</span></div>
-  <div class="ttl"><s>REPLACE PARTITION</s>으로 재처리 파이프라인이 단순해집니다</div>
+  <div class="ttl">Takeaway 02</div>
   <div class="body">
-    두 번째 테이크어웨이입니다. <strong>REPLACE PARTITION</strong>을 활용하면 재처리 워크플로우가 4단계로 정리됩니다.
-    <span class="sep"></span>
-    <code>CREATE TABLE tmp AS src</code>로 스키마를 복사하고, <code>INSERT INTO tmp</code>로 새 데이터를 적재한 뒤, <code>REPLACE PARTITION</code>으로 원자적으로 교체하고, 마지막으로 <code>DROP TABLE tmp</code>로 정리합니다.
-    <span class="sep"></span>
-    Airflow DAG는 <code>create_tmp >> load_tmp >> replace</code> 세 태스크로 끝납니다. <b>멱등성(Idempotent)</b>이 보장됩니다. 재실행해도 tmp 테이블을 매번 새로 만들고 지우기 때문에 <b>중복 데이터 걱정이 없습니다</b>. DELETE + UPSERT 방식 대비 중간에 쿼리해도 항상 <strong>일관된 결과</strong>를 보장합니다.
+    <p>두 번째 Takeaway 입니다.</p>
+    <p><strong>REPLACE PARTITION</strong>에 대한 부분인데요, 데이터 backfill을 파티션 단위로 <b>atomic</b>, <b>idempotent</b>하게 처리하고 싶으시다면 <code>partition by</code>를 잘 설정하시고 보다 쉽게 스케쥴링으로 실행이 가능하다는 점입니다.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">16 / 17</span><button onclick="go(1)">→</button></div>
 </div>
@@ -332,18 +260,9 @@
 <!-- 17 -->
 <div class="card">
   <div class="hd"><span class="num">17 / 17</span><span class="tag">Q&A</span></div>
-  <div class="ttl">감사합니다 — Q&A</div>
+  <div class="ttl">감사합니다</div>
   <div class="body">
-    감사합니다. 질문이 있으시면 편하게 말씀해 주세요.
-    <span class="sep"></span>
-    <b>예상 Q1 — AggMT에서 -State / -Merge 함수를 꼭 써야 하나요?</b><br>
-    네, 반드시 써야 합니다. AggregatingMergeTree는 raw 값이 아닌 <strong>직렬화된 집계 상태</strong>를 저장합니다. <code>sumState</code>로 넣고 <code>sumMerge</code>로 읽는 쌍이 맞아야 올바른 값이 나옵니다.
-    <span class="sep"></span>
-    <b>예상 Q2 — REPLACE PARTITION 도중 쿼리가 오면?</b><br>
-    ClickHouse는 <b>파티션 레벨 atomic swap</b>이라 쿼리 결과가 old 또는 new 파티션을 완전히 읽습니다. <strong>중간 상태가 없습니다.</strong>
-    <span class="sep"></span>
-    <b>예상 Q3 — S3Queue Engine은 exactly-once인가요?</b><br>
-    <i>At-least-once</i>입니다. S3Queue 자체는 중복 가능성이 있습니다. AggregatingMergeTree의 집계 특성으로 멱등성을 확보하는 구조입니다.
+    <p>질문이 있으시면 편하게 말씀해 주세요.</p>
   </div>
   <div class="nav"><button onclick="go(-1)">←</button><span class="pg">17 / 17</span><button onclick="go(1)" disabled>→</button></div>
 </div>
