@@ -451,28 +451,32 @@ tr:last-child td{border-bottom:none}
     <div style="grid-column:1/13;grid-row:2/9;display:flex;align-items:stretch;padding:12px 24px">
       <div style="display:grid;grid-template-columns:1fr 160px 1fr 260px;grid-template-rows:1fr 1fr 1fr;width:100%;height:100%">
 
-        <!-- ROW 1: App SDK → DARO API → Confluent Kafka → -->
-        <div style="grid-column:1;grid-row:1;display:flex;align-items:center">
-          <div style="padding:16px 22px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">📱</div><div class="tbsm" style="font-weight:700;font-size:16px">App SDK</div>
+        <!-- ROW 1: App SDK ──→── DARO API ──→── Confluent Kafka ──→── (line to S3) -->
+        <div style="grid-column:1;grid-row:1;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="padding:14px 18px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">📱</div><div class="tbsm" style="font-weight:700;font-size:15px">App SDK</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
-          <div style="padding:16px 22px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">🖥️</div><div class="tbsm" style="font-weight:700;font-size:16px">DARO API</div>
+          <div style="flex:1;height:2px;background:rgba(230,255,61,.3)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
+          <div style="padding:14px 18px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">🖥️</div><div class="tbsm" style="font-weight:700;font-size:15px">DARO API</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
-          <div style="padding:16px 22px;background:rgba(28,58,182,.15);border:1px solid rgba(28,58,182,.4);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">🌊</div><div class="tbsm" style="color:#6b8ffc;font-weight:700;font-size:16px">Confluent Kafka</div>
+          <div style="flex:1;height:2px;background:rgba(230,255,61,.3)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
+          <div style="padding:14px 18px;background:rgba(28,58,182,.15);border:1px solid rgba(28,58,182,.4);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">🌊</div><div class="tbsm" style="color:#6b8ffc;font-weight:700;font-size:15px">Confluent Kafka</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="flex:1;height:2px;background:rgba(230,255,61,.3)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
         </div>
 
-        <!-- ROW 3: DARO Report Fetcher → (right-aligned so → meets S3 left edge) -->
-        <div style="grid-column:1;grid-row:3;display:flex;align-items:center;justify-content:flex-end">
-          <div style="padding:16px 22px;background:var(--p8);border:1px solid rgba(128,74,255,.3);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">📡</div><div class="tbsm cp" style="font-weight:700;font-size:16px">DARO Report Fetcher</div>
+        <!-- ROW 3: DARO Report Fetcher ──────────────────────→ (line to S3) -->
+        <div style="grid-column:1;grid-row:3;display:flex;align-items:center">
+          <div style="padding:14px 18px;background:var(--p8);border:1px solid rgba(128,74,255,.3);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">📡</div><div class="tbsm cp" style="font-weight:700;font-size:15px">DARO Report Fetcher</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="flex:1;height:2px;background:rgba(128,74,255,.35)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
         </div>
 
         <!-- AWS S3: spans all 3 rows, fills full height as a tall hub node -->
@@ -483,29 +487,31 @@ tr:last-child td{border-bottom:none}
           </div>
         </div>
 
-        <!-- PROCESSING LANE 1: → Airflow → -->
-        <div style="grid-column:3;grid-row:1;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)">
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
-          <div style="padding:16px 22px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">🔄</div><div class="tbsm" style="font-weight:700;font-size:16px">Airflow</div>
+        <!-- PROCESSING LANE 1: → [Airflow] ──────────────────→ -->
+        <div style="grid-column:3;grid-row:1;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0;padding-right:6px">→</div>
+          <div style="padding:14px 18px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">🔄</div><div class="tbsm" style="font-weight:700;font-size:15px">Airflow</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="flex:1;height:2px;background:rgba(230,255,61,.3)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
         </div>
 
-        <!-- PROCESSING LANE 2: → S3Queue Engine → -->
-        <div style="grid-column:3;grid-row:2;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)">
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
-          <div style="padding:16px 22px;background:rgba(230,255,61,.08);border:1px solid rgba(230,255,61,.3);border-radius:12px;text-align:center;white-space:nowrap">
-            <div style="font-size:28px">⚡</div><div class="tbsm ca" style="font-weight:700;font-size:16px">S3Queue Engine</div>
+        <!-- PROCESSING LANE 2: → [S3Queue Engine] ───────────→ -->
+        <div style="grid-column:3;grid-row:2;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0;padding-right:6px">→</div>
+          <div style="padding:14px 18px;background:rgba(230,255,61,.08);border:1px solid rgba(230,255,61,.3);border-radius:12px;text-align:center;white-space:nowrap;flex-shrink:0">
+            <div style="font-size:26px">⚡</div><div class="tbsm ca" style="font-weight:700;font-size:15px">S3Queue Engine</div>
           </div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="flex:1;height:2px;background:rgba(230,255,61,.3)"></div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
         </div>
 
-        <!-- PROCESSING LANE 3: → direct gradient line → -->
+        <!-- PROCESSING LANE 3: → ────────── gradient ──────────→ -->
         <div style="grid-column:3;grid-row:3;display:flex;align-items:center">
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0;padding-right:6px">→</div>
           <div style="flex:1;height:3px;background:linear-gradient(90deg,rgba(128,74,255,.4),rgba(200,200,0,.4))"></div>
-          <div style="color:var(--accent);font-size:26px;padding:0 10px">→</div>
+          <div style="color:var(--accent);font-size:20px;flex-shrink:0">→</div>
         </div>
 
         <!-- ClickHouse: spans all 3 rows, fills full height as a tall hub node -->
@@ -693,33 +699,41 @@ tr:last-child td{border-bottom:none}
     <span class="kw">FROM</span> agg_ssp_impression_tmp;</code></pre>
     </div>
 
-    <!-- Right: data flow diagram between ClickHouse resources -->
-    <div style="grid-column:9/13;grid-row:2/9;display:flex;flex-direction:column;justify-content:center;gap:0;padding:8px 4px">
-      <!-- Stream path: stg → MV → agg -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-        <div style="padding:14px 18px;background:rgba(230,255,61,.08);border:1.5px solid rgba(230,255,61,.35);border-radius:10px;text-align:center;width:100%">
-          <div class="tbsm ca" style="font-size:13px;font-weight:700">stg_ssp__impression</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:3px">S3Queue Engine</div>
+    <!-- Right: top-to-bottom data flow — two sources converging into agg table -->
+    <div style="grid-column:9/13;grid-row:2/9;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:8px 4px">
+
+      <!-- Row 1: two source boxes side by side -->
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;padding:12px 10px;background:rgba(230,255,61,.08);border:1.5px solid rgba(230,255,61,.35);border-radius:10px;text-align:center">
+          <div class="tbsm ca" style="font-size:12px;font-weight:700">stg_ssp__impression</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">S3Queue Engine</div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0">
-          <div style="font-size:11px;color:var(--accent);letter-spacing:.05em">Materialized View</div>
-          <div style="color:var(--accent);font-size:22px;line-height:1">↓</div>
-        </div>
-        <!-- Central aggregation table (highlighted) -->
-        <div style="padding:18px 20px;background:rgba(128,74,255,.18);border:2px solid rgba(128,74,255,.55);border-radius:12px;text-align:center;width:100%;position:relative">
-          <div class="tbsm cp" style="font-size:14px;font-weight:700">agg_ssp_impression</div>
-          <div style="font-size:11px;color:var(--purpleL);margin-top:3px">AggregatingMergeTree</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:6px">쿼리: <code style="color:var(--accent)">sumMerge</code> / <code style="color:var(--accent)">uniqMerge</code></div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0">
-          <div style="color:var(--purpleL);font-size:22px;line-height:1">↑</div>
-          <div style="font-size:11px;color:var(--purpleL);letter-spacing:.05em">REPLACE PARTITION (daily)</div>
-        </div>
-        <div style="padding:14px 18px;background:rgba(128,74,255,.08);border:1.5px solid rgba(128,74,255,.25);border-radius:10px;text-align:center;width:100%">
-          <div class="tbsm cp" style="font-size:13px;font-weight:700">finalized_s3_source</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:3px">확정 S3 데이터</div>
+        <div style="flex:1;padding:12px 10px;background:rgba(128,74,255,.08);border:1.5px solid rgba(128,74,255,.28);border-radius:10px;text-align:center">
+          <div class="tbsm cp" style="font-size:12px;font-weight:700">finalized_s3_source</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:3px">확정 S3 데이터</div>
         </div>
       </div>
+
+      <!-- Row 2: two arrow labels side by side -->
+      <div style="display:flex">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px">
+          <div style="color:var(--accent);font-size:20px;line-height:1">↓</div>
+          <div style="font-size:10px;color:var(--accent)">Materialized View</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px">
+          <div style="color:var(--purpleL);font-size:20px;line-height:1">↓</div>
+          <div style="font-size:10px;color:var(--purpleL)">REPLACE PARTITION</div>
+        </div>
+      </div>
+
+      <!-- Row 3: central aggregation table (full width) -->
+      <div style="padding:16px 18px;background:rgba(128,74,255,.18);border:2px solid rgba(128,74,255,.55);border-radius:12px;text-align:center">
+        <div class="tbsm cp" style="font-size:14px;font-weight:700">agg_ssp_impression</div>
+        <div style="font-size:11px;color:var(--purpleL);margin-top:4px">AggregatingMergeTree</div>
+        <div style="height:1px;background:rgba(128,74,255,.3);margin:10px 0"></div>
+        <div style="font-size:11px;color:var(--muted)">쿼리: <code style="color:var(--accent)">sumMerge</code> / <code style="color:var(--accent)">uniqMerge</code></div>
+      </div>
+
     </div>
   </div>
 </div>
