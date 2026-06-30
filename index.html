@@ -892,30 +892,39 @@ tr:last-child td{border-bottom:none}
     <div style="grid-column:1/13;grid-row:3/9;display:flex;align-items:stretch;gap:20px;padding:8px">
       <!-- Left: ClickHouse SQL steps -->
       <div style="flex:1;display:flex;flex-direction:column;gap:10px">
-        <div class="tl ca" style="margin-bottom:4px">ClickHouse — 3단계</div>
-        <pre style="flex:1;font-size:15px;line-height:1.75;padding:16px 20px"><code><span class="cmt">-- 1. 임시 테이블에 적재</span>
+        <div class="tl ca" style="margin-bottom:4px">ClickHouse — 4단계</div>
+        <pre style="flex:1;font-size:14px;line-height:1.65;padding:16px 20px"><code><span class="cmt">-- 1. 임시 테이블 생성</span>
+<span class="kw">CREATE TABLE</span> stg_ssp__impression_tmp
+  <span class="kw">AS</span> stg_ssp__impression;
+
+<span class="cmt">-- 2. 임시 테이블에 적재</span>
 <span class="kw">INSERT INTO</span> stg_ssp__impression_tmp
 <span class="kw">SELECT</span> * <span class="kw">FROM</span> s3_source
 <span class="kw">WHERE</span> partition_key <span class="op">=</span> <span class="str">'2024010114'</span>;
 
-<span class="cmt">-- 2. 원자적으로 교체</span>
+<span class="cmt">-- 3. 원자적으로 교체</span>
 <span class="kw">ALTER TABLE</span> stg_ssp__impression
   <span class="kw">REPLACE PARTITION</span> <span class="str">'2024010114'</span>
   <span class="kw">FROM</span> stg_ssp__impression_tmp;
 
-<span class="cmt">-- 3. 임시 테이블 삭제</span>
+<span class="cmt">-- 4. 임시 테이블 삭제</span>
 <span class="kw">DROP TABLE</span> stg_ssp__impression_tmp;</code></pre>
       </div>
       <!-- Right: Airflow DAG -->
       <div style="flex:1;display:flex;flex-direction:column;gap:10px">
         <div class="tl cp" style="margin-bottom:4px">Airflow DAG — 멱등성 보장</div>
-        <pre style="flex:1;font-size:13.5px;line-height:1.65;padding:16px 20px"><code><span class="kw">from</span> datetime <span class="kw">import</span> datetime
+        <pre style="flex:1;font-size:12.5px;line-height:1.6;padding:16px 20px"><code><span class="kw">from</span> datetime <span class="kw">import</span> datetime
 <span class="kw">from</span> airflow.decorators <span class="kw">import</span> dag
 <span class="kw">from</span> airflow.providers.common.sql.operators.sql <span class="kw">import</span> SQLExecuteQueryOperator
 
 <span class="op">@</span><span class="fn">dag</span>(schedule<span class="op">=</span><span class="str">"@daily"</span>, start_date<span class="op">=</span>datetime(<span class="fn">2024</span>, <span class="fn">1</span>, <span class="fn">1</span>), catchup<span class="op">=</span><span class="fn">False</span>)
 <span class="kw">def</span> <span class="fn">daro_ssp_daily_backfill</span>():
 
+    create_tmp <span class="op">=</span> SQLExecuteQueryOperator(
+        task_id<span class="op">=</span><span class="str">"create_tmp"</span>, conn_id<span class="op">=</span><span class="str">"clickhouse"</span>,
+        sql<span class="op">=</span><span class="str">"""CREATE TABLE stg_ssp__impression_tmp
+            AS stg_ssp__impression"""</span>,
+    )
     load_tmp <span class="op">=</span> SQLExecuteQueryOperator(
         task_id<span class="op">=</span><span class="str">"load_tmp"</span>, conn_id<span class="op">=</span><span class="str">"clickhouse"</span>,
         sql<span class="op">=</span><span class="str">"""INSERT INTO stg_ssp__impression_tmp
@@ -929,7 +938,7 @@ tr:last-child td{border-bottom:none}
               FROM stg_ssp__impression_tmp;
             DROP TABLE stg_ssp__impression_tmp"""</span>,
     )
-    load_tmp <span class="op">>></span> replace
+    create_tmp <span class="op">>></span> load_tmp <span class="op">>></span> replace
 
 <span class="fn">daro_ssp_daily_backfill</span>()</code></pre>
       </div>
