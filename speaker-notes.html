@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaker Notes — ClickHouse × Confluent</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --border: rgba(255,255,255,.1);
+    --fg: #e8e8e8;
+    --muted: #888;
+    --accent: #e6ff3d;
+    --purple: #804aff;
+    --blue: #6b8ffc;
+    --green: #7fd5ea;
+    --num: #333;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow: hidden; }
+
+  .deck { width: 100%; height: 100%; position: relative; }
+
+  .card {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: 32px 40px 28px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .card.active { opacity: 1; pointer-events: all; }
+
+  .meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .slide-num {
+    font-size: 13px; font-weight: 700; letter-spacing: .15em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    padding: 4px 10px; border-radius: 20px; text-transform: uppercase;
+    background: rgba(255,255,255,.06); color: var(--muted);
+  }
+  .tag.accent { background: rgba(230,255,61,.12); color: var(--accent); }
+  .tag.purple { background: rgba(128,74,255,.15); color: #b48cff; }
+  .tag.blue   { background: rgba(107,143,252,.12); color: var(--blue); }
+
+  .slide-title {
+    font-size: clamp(22px, 3.5vw, 38px);
+    font-weight: 800; line-height: 1.2;
+    margin-bottom: 22px;
+    letter-spacing: -.02em;
+  }
+  .slide-title em { font-style: normal; color: var(--accent); }
+  .slide-title s  { text-decoration: none; color: var(--purple); }
+
+  .notes { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+
+  .note {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: clamp(14px, 1.8vw, 17px);
+    line-height: 1.55;
+  }
+  .note .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0; margin-top: 7px;
+  }
+  .note .dot.p { background: var(--purple); }
+  .note .dot.b { background: var(--blue); }
+  .note .dot.g { background: var(--green); }
+  .note .dot.m { background: var(--muted); }
+  .note strong { color: var(--accent); font-weight: 700; }
+  .note b { color: var(--fg); font-weight: 700; }
+  .note code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .88em;
+    background: rgba(255,255,255,.07);
+    padding: 1px 6px; border-radius: 4px;
+  }
+
+  .divider {
+    height: 1px; background: var(--border); margin: 4px 0;
+    flex-shrink: 0;
+  }
+
+  .nav {
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+    padding: 16px 0 0;
+    flex-shrink: 0;
+  }
+  .nav button {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--fg); font-size: 18px; padding: 8px 20px;
+    border-radius: 8px; cursor: pointer; transition: border-color .15s;
+  }
+  .nav button:hover { border-color: rgba(255,255,255,.3); }
+  .nav button:disabled { opacity: .25; cursor: default; }
+  .nav .progress {
+    font-size: 13px; color: var(--muted); letter-spacing: .08em;
+    min-width: 60px; text-align: center;
+  }
+
+  /* swipe */
+  .deck { touch-action: pan-y; }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 -->
+  <div class="card active">
+    <div class="meta">
+      <span class="slide-num">Slide 01 / 17</span>
+      <span class="tag accent">Title</span>
+    </div>
+    <div class="slide-title">ClickHouse를 활용한 광고 데이터의 <em>신선도와 정확도</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>오늘 발표는 <b>DARO 광고 수익 파이프라인</b>을 ClickHouse로 어떻게 구현했는지에 대한 실전 사례입니다.</div></div>
+      <div class="note"><div class="dot"></div><div>핵심 스택: <code>Confluent → S3 → ClickHouse Cloud</code></div></div>
+      <div class="note"><div class="dot p"></div><div>두 가지 요구사항 — <strong>신선도</strong>(H+2~3 준실시간)와 <b style="color:#b48cff">정확도</b>(D+1 확정 정산) — 를 <b>하나의 테이블</b>로 동시에 만족시킨 방법을 소개합니다.</div></div>
+      <div class="note"><div class="dot m"></div><div>Q&A는 끝에 자유롭게 해주세요.</div></div>
+    </div>
+    <div class="nav">
+      <button id="prev" onclick="go(-1)" disabled>←</button>
+      <span class="progress" id="prog">1 / 17</span>
+      <button id="next" onclick="go(1)">→</button>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 02 / 17</span><span class="tag">Company</span></div>
+    <div class="slide-title">DelightRoom 소개</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div><b>DelightRoom</b> — Alarmy (알람 앱), DARO (광고 플랫폼), DelightHub (싱가포르 인프라 법인) 세 사업부 운영</div></div>
+      <div class="note"><div class="dot"></div><div>Alarmy는 글로벌 알람 앱, MAU 수천만. DARO는 그 트래픽 위에서 돌아가는 광고 네트워크.</div></div>
+      <div class="note"><div class="dot m"></div><div>이미지 슬라이드 — 간략히 넘기면 됩니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">2 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 03 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 03 / 17</span><span class="tag">Team</span></div>
+    <div class="slide-title">4명의 엔지니어, 3개의 사업부</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>Foundation Engineering 팀 4명이 DevOps · SRE · Data Platform · AX 전 영역을 커버합니다.</div></div>
+      <div class="note"><div class="dot"></div><div>인당 커버하는 영역이 넓기 때문에 <strong>운영 부담을 줄이는 설계</strong>가 기술 선택의 핵심 기준이었습니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">3 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 04 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 04 / 17</span><span class="tag">Context</span></div>
+    <div class="slide-title">넓은 스코프, 작은 팀 — <em>TCO 최소화</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>관리 영역: EKS, WarpStream BYOC, Confluent, ClickHouse Cloud, Datadog, Airflow 등</div></div>
+      <div class="note"><div class="dot"></div><div>핵심 챌린지: <strong>비용과 운영 리소스를 최소화</strong>하면서 넓은 스코프를 커버해야 합니다.</div></div>
+      <div class="note"><div class="dot p"></div><div>오늘 발표에서 보여드릴 파이프라인도 이 원칙 — <b>최대한 ClickHouse 안에서 해결</b> — 하에 설계되었습니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">4 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 05 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 05 / 17</span><span class="tag purple">DARO</span></div>
+    <div class="slide-title">DARO에서의 <s>챌린지</s></div>
+    <div class="notes">
+      <div class="note"><div class="dot p"></div><div>DARO는 <b>5,000만 MAU · 200+ 파트너사</b>의 광고 수익을 집계해서 대시보드에 보여주는 플랫폼입니다.</div></div>
+      <div class="note"><div class="dot"></div><div>고객사(파트너)는 대시보드에서 실시간에 가깝게 자신의 광고 수익을 확인하고 싶어 합니다. → <strong>신선도</strong></div></div>
+      <div class="note"><div class="dot p"></div><div>하지만 SSP에서 최종 확정된 수치(D+7 정산 기준)와 실시간 예상치 사이에는 편차가 있습니다. → <b style="color:#b48cff">정확도</b></div></div>
+      <div class="note"><div class="dot m"></div><div>"빠르게도, 정확하게도" — 이 두 가지를 동시에 만족시키는 것이 핵심 챌린지입니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">5 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 06 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 06 / 17</span><span class="tag accent">Requirements</span></div>
+    <div class="slide-title">신선도 + 정확도의 <em>요구사항</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div><strong>신선도(Freshness):</strong> 새 퍼블리셔 온보딩 시 즉시 수익 확인 가능 / A·B 실험 중 준실시간 성과 피드백</div></div>
+      <div class="note"><div class="dot p"></div><div><b style="color:#b48cff">정확도(Accuracy):</b> SSP 집계 지연·보정으로 처음 받는 수치는 항상 preliminary. D+7 기준 확정치로 정기 업데이트 필요.</div></div>
+      <div class="note"><div class="dot m"></div><div>두 요구사항이 서로 충돌하는 것처럼 보이는 게 포인트 — 다음 슬라이드들에서 ClickHouse로 어떻게 풀었는지 보여드립니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">6 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 07 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 07 / 17</span><span class="tag">Section</span></div>
+    <div class="slide-title">Section 01 — ClickHouse를 선택하게 된 이유</div>
+    <div class="notes">
+      <div class="note"><div class="dot m"></div><div>섹션 전환 슬라이드입니다. 잠깐 호흡 조절하고 넘어가세요.</div></div>
+      <div class="note"><div class="dot"></div><div>"신선도와 정확도, 두 가지를 동시에 달성하는 법" — 이게 이번 섹션의 핵심 질문입니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">7 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 08 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 08 / 17</span><span class="tag accent">Pipeline</span></div>
+    <div class="slide-title">DARO 데이터 파이프라인</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div><b>실시간 이벤트 경로:</b> App SDK → DARO API → <code>Confluent Kafka</code> → S3 → <code>S3Queue Engine</code> → ClickHouse</div></div>
+      <div class="note"><div class="dot p"></div><div><b>정산 배치 경로:</b> <code>DARO Report Fetcher</code> (SSP API 폴링) → S3 → Airflow → REPLACE PARTITION</div></div>
+      <div class="note"><div class="dot"></div><div>S3가 허브 역할 — 실시간 스트림과 배치 정산 데이터가 모두 S3를 통해 ClickHouse로 들어옵니다.</div></div>
+      <div class="note"><div class="dot m"></div><div>다이어그램의 세 레인: 이벤트 스트림 / S3Queue 자동 적재 / 정산 배치</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">8 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 09 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 09 / 17</span><span class="tag accent">Freshness</span></div>
+    <div class="slide-title">신선도: <em>S3Queue Engine</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>기존 방식: Airflow DAG가 S3를 폴링해서 ClickHouse에 INSERT — 운영 복잡도 높음, 지연 존재</div></div>
+      <div class="note"><div class="dot"></div><div>S3Queue Engine: <b>ClickHouse가 S3를 직접 watch</b>하여 새 파일이 생기는 즉시 자동 적재. Airflow DAG 불필요.</div></div>
+      <div class="note"><div class="dot p"></div><div>설정은 <code>CREATE TABLE ... ENGINE = S3Queue(...)</code> DDL 하나로 끝 — 별도 오케스트레이션 없음</div></div>
+      <div class="note"><div class="dot m"></div><div>비교 표에서 Latency / Ops overhead / 설정 복잡도 세 항목 모두 S3Queue 우위임을 강조하세요.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">9 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 10 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 10 / 17</span><span class="tag purple">Accuracy</span></div>
+    <div class="slide-title">정확도: <em>REPLACE PARTITION</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot p"></div><div><code>ALTER TABLE t REPLACE PARTITION p FROM t_tmp</code> — 파티션 전체를 <b>원자적으로(Atomically)</b> 교체합니다.</div></div>
+      <div class="note"><div class="dot"></div><div>D+7 확정 데이터가 도착하면 해당 날짜 파티션만 통째로 swap → 쿼리 중단 없이 정확도 확보</div></div>
+      <div class="note"><div class="dot"></div><div>DELETE + INSERT 방식 대비: 중간 상태 없음 / 롤백 가능 / 쿼리 일관성 보장</div></div>
+      <div class="note"><div class="dot m"></div><div>공식 문서 스크린샷 슬라이드 — 간략히 설명하고 넘어가도 됩니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">10 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 11 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 11 / 17</span><span class="tag accent">Key Slide</span></div>
+    <div class="slide-title">하나의 테이블로 <em>신선도와 정확도</em> 동시에</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div><code>agg_ssp_impression</code> (<b>AggregatingMergeTree</b>) — 실시간 집계 상태(-State)와 확정치를 같은 테이블에 공존시킵니다.</div></div>
+      <div class="note"><div class="dot"></div><div><strong>실시간 경로:</strong> <code>stg_ssp__impression</code>(S3Queue) → Materialized View → <code>agg_ssp_impression</code> 자동 누적</div></div>
+      <div class="note"><div class="dot p"></div><div><b style="color:#b48cff">배치 경로:</b> <code>finalized_s3_source</code> → REPLACE PARTITION (daily) → 확정 파티션 교체</div></div>
+      <div class="note"><div class="dot g"></div><div>쿼리 시 <code>sumMerge</code> / <code>uniqMerge</code>로 -State를 최종화 — 이것이 AggregatingMergeTree의 핵심 패턴입니다.</div></div>
+      <div class="note"><div class="dot m"></div><div>이 슬라이드가 오늘 발표의 핵심 — 시간이 부족하면 여기에 집중하세요.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">11 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 12 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 12 / 17</span><span class="tag blue">Bonus</span></div>
+    <div class="slide-title">Bonus: 또 하나의 방법</div>
+    <div class="notes">
+      <div class="note"><div class="dot b"></div><div>Bonus 섹션 — 공유 스토리지 아키텍처가 만들어내는 운영 효율에 대한 이야기입니다.</div></div>
+      <div class="note"><div class="dot m"></div><div>섹션 전환 슬라이드. 청중 반응 보고 시간 여유 있으면 자세히, 없으면 빠르게 넘기세요.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">12 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 13 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 13 / 17</span><span class="tag blue">Warehouse</span></div>
+    <div class="slide-title">ClickHouse Cloud <em>Warehouse</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div><b>Use Case 01 — QA Staging 환경:</b> Prod S3를 Staging ClickHouse가 그대로 참조 → 데이터 복사 없이 QA 가능</div></div>
+      <div class="note"><div class="dot p"></div><div><b>Use Case 02 — Lightweight Data Lake:</b> ClickHouse가 Query Engine 역할, S3가 스토리지. Parquet/CSV 파일을 직접 쿼리.</div></div>
+      <div class="note"><div class="dot m"></div><div>공유 스토리지 덕분에 Warehouse 간 데이터 이동 없이 멀티 컴퓨트 환경 구성이 가능하다는 게 핵심 포인트입니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">13 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 14 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 14 / 17</span><span class="tag">Section</span></div>
+    <div class="slide-title"><em>Takeaways!</em></div>
+    <div class="notes">
+      <div class="note"><div class="dot m"></div><div>타이틀 카드 — "Takeaways!" 외치고 바로 넘기세요.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">14 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 15 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 15 / 17</span><span class="tag accent">Takeaway 01</span></div>
+    <div class="slide-title">준실시간 스트림 집계 + 백필 집계를 <em>하나의 테이블</em>에</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>복잡한 파이프라인 없이 ClickHouse <b>DDL + DML만으로</b> 설정 가능합니다.</div></div>
+      <div class="note"><div class="dot"></div><div><strong>Materialized View</strong>가 실시간으로 -State 집계를 누적하고,</div></div>
+      <div class="note"><div class="dot p"></div><div><b style="color:#b48cff">REPLACE PARTITION</b>이 확정 데이터로 해당 파티션을 원자적으로 교체합니다.</div></div>
+      <div class="note"><div class="dot g"></div><div>쿼리 시 <code>sumMerge</code> / <code>uniqMerge</code>로 집계 상태를 최종화.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">15 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 16 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 16 / 17</span><span class="tag purple">Takeaway 02</span></div>
+    <div class="slide-title">REPLACE PARTITION으로 <s>재처리 파이프라인</s>이 단순해집니다</div>
+    <div class="notes">
+      <div class="note"><div class="dot"></div><div>4-step 워크플로우: <code>CREATE TABLE tmp AS src</code> → <code>INSERT INTO tmp</code> → <code>REPLACE PARTITION</code> → <code>DROP TABLE tmp</code></div></div>
+      <div class="note"><div class="dot"></div><div>Airflow DAG는 <code>create_tmp &gt;&gt; load_tmp &gt;&gt; replace</code> 세 태스크로 끝 — 멱등성(Idempotent) 보장</div></div>
+      <div class="note"><div class="dot p"></div><div>재실행해도 안전: tmp 테이블을 매번 새로 만들고 지우기 때문에 중복 데이터 걱정 없음</div></div>
+      <div class="note"><div class="dot m"></div><div>DELETE + UPSERT 방식 대비: 중간에 쿼리해도 항상 일관된 결과 / 파티션 단위 원자성</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">16 / 17</span><button onclick="go(1)">→</button></div>
+  </div>
+
+  <!-- 17 -->
+  <div class="card">
+    <div class="meta"><span class="slide-num">Slide 17 / 17</span><span class="tag">Closing</span></div>
+    <div class="slide-title">감사합니다 — Q&A</div>
+    <div class="notes">
+      <div class="note"><div class="dot m"></div><div>질문이 있으시면 편하게 말씀해 주세요.</div></div>
+      <div class="note"><div class="dot"></div><div><b>예상 질문 1 —</b> AggregatingMergeTree에서 -State와 -Merge 함수를 꼭 써야 하나요? → 네, AggMT는 raw 값이 아닌 직렬화된 집계 상태를 저장하기 때문에 반드시 쌍으로 써야 합니다.</div></div>
+      <div class="note"><div class="dot"></div><div><b>예상 질문 2 —</b> REPLACE PARTITION 중 쿼리가 날아오면? → ClickHouse는 파티션 레벨 atomic swap이라 쿼리 결과가 old 또는 new 파티션을 완전히 읽습니다. 중간 상태 없음.</div></div>
+      <div class="note"><div class="dot p"></div><div><b>예상 질문 3 —</b> S3Queue Engine은 exactly-once인가요? → at-least-once입니다. S3Queue 자체는 중복 가능 — AggregatingMergeTree의 집계 특성으로 멱등성을 확보하는 구조입니다.</div></div>
+    </div>
+    <div class="nav"><button onclick="go(-1)">←</button><span class="progress">17 / 17</span><button onclick="go(1)" disabled>→</button></div>
+  </div>
+
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  let cur = 0;
+
+  function go(dir) {
+    cards[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(cards.length - 1, cur + dir));
+    cards[cur].classList.add('active');
+    // update nav buttons within active card
+    const btns = cards[cur].querySelectorAll('button');
+    btns[0].disabled = cur === 0;
+    btns[1].disabled = cur === cards.length - 1;
+  }
+
+  // keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+
+  // touch swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+</script>
+</body>
+</html>
